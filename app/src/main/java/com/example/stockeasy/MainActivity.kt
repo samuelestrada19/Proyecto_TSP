@@ -3,7 +3,7 @@ package com.example.stockeasy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.stockeasy.ui.auth.RegistroPantalla
+import com.example.stockeasy.screens.LoginScreen // Cambiado al nuevo paquete
 import com.example.stockeasy.ui.theme.StockEasyTheme
 
 class MainActivity : ComponentActivity() {
@@ -11,9 +11,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             StockEasyTheme {
-                RegistroPantalla()
+                LoginScreen()
             }
         }
     }
 }
-
