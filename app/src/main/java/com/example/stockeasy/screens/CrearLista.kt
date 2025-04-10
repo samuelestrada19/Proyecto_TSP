@@ -85,7 +85,8 @@ fun CrearListaScreen() {
             Spacer(modifier = Modifier.height(24.dp))
 
             // Nombre
-            Text("Nombre", color = Color.White, modifier = Modifier.align(Alignment.Start))
+            Text("Nombre", color = Color.White, modifier = Modifier.align(Alignment.Start),
+                fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedTextField(
                 value = nombre,
@@ -102,7 +103,8 @@ fun CrearListaScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Imagen
-            Text("Imagen", color = Color.White, modifier = Modifier.align(Alignment.Start))
+            Text("Imagen", color = Color.White, modifier = Modifier.align(Alignment.Start),
+                fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             Column(
                 modifier = Modifier
@@ -119,7 +121,8 @@ fun CrearListaScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Descripción
-            Text("Breve descripción", color = Color.White, modifier = Modifier.align(Alignment.Start))
+            Text("Breve descripción", color = Color.White, modifier = Modifier.align(Alignment.Start),
+                fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedTextField(
                 value = descripcion,
@@ -136,7 +139,8 @@ fun CrearListaScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Lista
-            Text("Lista", color = Color.White, modifier = Modifier.align(Alignment.Start))
+            Text("Lista", color = Color.White, modifier = Modifier.align(Alignment.Start),
+                fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedTextField(
                 value = lista,
