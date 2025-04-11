@@ -137,7 +137,7 @@ fun MenuOpciones(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.mas),
+                    painter = painterResource(id = R.drawable.add),
                     contentDescription = "Agregar listas",
                     modifier = Modifier.size(24.dp)
                 )
@@ -191,4 +191,3 @@ fun MenuOpciones(
 fun MenuOpcionesPreview() {
     MenuOpciones()
 }
-

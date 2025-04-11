@@ -42,7 +42,6 @@ fun ArticulosPantalla() {
                     text = "Artículos",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF00B4D8)
                 )
                 Image(
                     painter = painterResource(id = R.drawable.add),

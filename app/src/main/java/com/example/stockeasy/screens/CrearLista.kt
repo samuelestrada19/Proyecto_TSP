@@ -9,8 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -72,7 +70,7 @@ fun CrearListaScreen() {
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Crea nueva\nlista",
+                    text = "Crea nueva lista",
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontSize = 30.sp,
                         fontWeight = FontWeight.Bold,
@@ -138,23 +136,6 @@ fun CrearListaScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Lista
-            Text("Lista", color = Color.White, modifier = Modifier.align(Alignment.Start),
-                fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(5.dp))
-            OutlinedTextField(
-                value = lista,
-                onValueChange = { lista = it },
-                placeholder = { Text("Agrega artículos a tu lista") },
-                shape = RoundedCornerShape(8.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = campoBlanco,
-                    focusedContainerColor = campoBlanco
-                ),
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = { /* Acción crear lista */ },
