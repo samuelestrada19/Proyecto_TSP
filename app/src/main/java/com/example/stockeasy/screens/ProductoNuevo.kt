@@ -25,7 +25,6 @@ fun ProductoNuevo() {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Fila superior con título y botón guardar
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -48,7 +47,6 @@ fun ProductoNuevo() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Imagen de producto (placeholder)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,7 +113,7 @@ fun ProductoNuevo() {
                     modifier = Modifier
                         .height(28.dp)
                         .width(36.dp)
-                        .background(Color.Transparent) // Botón plano
+                        .background(Color.Transparent)
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.codigo),
@@ -137,8 +135,9 @@ fun ProductoNuevo() {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun ProductoNuevoPreview() {
-    ProductoNuevo()
-}
+//@Preview(showSystemUi = true, showBackground = true)
+//@Composable
+//fun ProductoNuevoPreview() {
+//    ProductoNuevo()
+//}
+

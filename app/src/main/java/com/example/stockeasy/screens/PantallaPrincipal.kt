@@ -14,10 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.clickable
+import androidx.navigation.NavController
 import com.example.stockeasy.R
 
 @Composable
-fun ArticulosPantalla() {
+fun PantallaPrincipal(navController: NavController) {  // Cambié el nombre aquí
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -43,22 +45,25 @@ fun ArticulosPantalla() {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
+                // Botón para navegar a la pantalla de agregar producto
                 Image(
                     painter = painterResource(id = R.drawable.add),
-                    contentDescription = "Inicio",
-                    modifier = Modifier.size(24.dp)
+                    contentDescription = "Agregar producto",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            navController.navigate("productoNuevo")  // Navegar a la pantalla de agregar producto
+                        }
                 )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Aquí se coloca la lupa dentro de un Row junto al OutlinedTextField
             OutlinedTextField(
                 value = "",
                 onValueChange = {},
                 label = { Text("Buscar código o descripción") },
                 leadingIcon = {
-                    // Coloca la lupa como un icono al inicio del TextField
                     Image(
                         painter = painterResource(id = R.drawable.search),
                         contentDescription = "Buscar",
@@ -70,7 +75,6 @@ fun ArticulosPantalla() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Espacio para productos (sin productos por defecto)
             Column(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.weight(1f)
@@ -79,13 +83,12 @@ fun ArticulosPantalla() {
             }
         }
 
-        // Menú inferior fijo (más arriba)
         Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(bottom = 24.dp), // Aumentado para subir el menú
+                .padding(bottom = 24.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -125,8 +128,8 @@ fun ArticulosPantalla() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ArticulosPantallaPreview() {
-    ArticulosPantalla()
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun PantallaPrincipalPreview() {
+    // PantallaPrincipal() ahora requiere NavController
+//}
