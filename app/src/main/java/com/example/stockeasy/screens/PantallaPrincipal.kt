@@ -2,8 +2,8 @@ package com.example.stockeasy.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,15 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.clickable
 import androidx.navigation.NavController
 import com.example.stockeasy.R
 
 @Composable
-fun PantallaPrincipal(navController: NavController) {  // Cambié el nombre aquí
+fun PantallaPrincipal(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -28,7 +26,7 @@ fun PantallaPrincipal(navController: NavController) {  // Cambié el nombre aqu�
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp, vertical = 48.dp) // Ajustado para dejar espacio arriba
+                .padding(horizontal = 16.dp, vertical = 48.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -37,22 +35,25 @@ fun PantallaPrincipal(navController: NavController) {  // Cambié el nombre aqu�
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.lista),
-                    contentDescription = "Agregar",
-                    modifier = Modifier.size(40.dp)
+                    contentDescription = "Inventario",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clickable {
+                            navController.navigate("inventario")
+                        }
                 )
                 Text(
                     text = "Artículos",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
-                // Botón para navegar a la pantalla de agregar producto
                 Image(
                     painter = painterResource(id = R.drawable.add),
                     contentDescription = "Agregar producto",
                     modifier = Modifier
                         .size(24.dp)
                         .clickable {
-                            navController.navigate("productoNuevo")  // Navegar a la pantalla de agregar producto
+                            navController.navigate("productoNuevo")
                         }
                 )
             }
@@ -120,16 +121,15 @@ fun PantallaPrincipal(navController: NavController) {  // Cambié el nombre aqu�
                 Image(
                     painter = painterResource(id = R.drawable.list),
                     contentDescription = "Menú",
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable {
+                            navController.navigate("menuOpciones")
+                        }
                 )
                 Text("Menú", fontSize = 12.sp)
             }
+
         }
     }
 }
-
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun PantallaPrincipalPreview() {
-    // PantallaPrincipal() ahora requiere NavController
-//}

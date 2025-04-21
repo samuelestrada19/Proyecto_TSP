@@ -185,9 +185,11 @@ fun MenuOpciones(
         Spacer(modifier = Modifier.height(8.dp))
     }
 }
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun MenuOpcionesPreview() {
     MenuOpciones()
 }
+
+ */

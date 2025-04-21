@@ -1,16 +1,10 @@
 package com.example.stockeasy
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.stockeasy.screens.PantallaPrincipal
-import com.example.stockeasy.screens.ProductoNuevo
-import com.example.stockeasy.screens.LoginScreen
-import com.example.stockeasy.screens.RegistroPantalla
+import com.example.stockeasy.screens.*
 
 @Composable
 fun AppNavigator() {
@@ -30,10 +24,22 @@ fun AppNavigator() {
             )
         }
         composable("home") {
-            PantallaPrincipal(navController = navController)  // Navega a la pantalla principal
+            PantallaPrincipal(navController = navController)
         }
         composable("productoNuevo") {
-            ProductoNuevo()  // Navega a la pantalla de agregar producto
+            ProductoNuevo()
+        }
+        composable("inventario") {
+            InventarioScreen()
+        }
+        composable("menuOpciones") {
+            MenuOpciones(
+                onBackClick = { navController.popBackStack() },
+                onHomeClick = { navController.navigate("home") },
+                onListasClick = { navController.navigate("inventario") },
+                onAgregarClick = { navController.navigate("productoNuevo") },
+                onConocenosClick = { /* acción futura */ }
+            )
         }
     }
 }
