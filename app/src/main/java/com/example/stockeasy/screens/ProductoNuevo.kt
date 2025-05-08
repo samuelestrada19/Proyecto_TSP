@@ -4,21 +4,43 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.input.KeyboardType
 import com.example.stockeasy.R
+import com.example.stockeasy.viewmodel.StockEasyViewModel
+import com.example.stockeasy.data.ListaEntity
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductoNuevo() {
+fun ProductoNuevo(
+    viewModel: StockEasyViewModel,
+    onProductoGuardado: () -> Unit = {}
+) {
     val azulDetalle = Color(0xFF5D99A4)
+
+    var nombre by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
+    var codigo by remember { mutableStateOf("") }
+    var existencias by remember { mutableStateOf("") }
+
+    val listas = viewModel.listas
+    var listaSeleccionada by remember { mutableStateOf<ListaEntity?>(null) }
+    var listaExpandida by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        if (listas.isEmpty()) viewModel.cargarListas()
+    }
 
     Column(
         modifier = Modifier
@@ -38,7 +60,24 @@ fun ProductoNuevo() {
             )
 
             Button(
-                onClick = { /* Guardar */ },
+                onClick = {
+                    listaSeleccionada?.let {
+                        val exist = existencias.toIntOrNull() ?: 0
+                        viewModel.agregarProducto(
+                            nombre,
+                            descripcion,
+                            codigo,
+                            exist,
+                            it.id
+                        )
+                        onProductoGuardado()
+                        nombre = ""
+                        descripcion = ""
+                        codigo = ""
+                        existencias = ""
+                        listaSeleccionada = null
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = azulDetalle)
             ) {
                 Text("Guardar", color = Color.White)
@@ -47,90 +86,66 @@ fun ProductoNuevo() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-                .background(azulDetalle, RoundedCornerShape(16.dp)),
-            contentAlignment = Alignment.Center
+        // DropdownMenu para seleccionar lista
+        ExposedDropdownMenuBox(
+            expanded = listaExpandida,
+            onExpandedChange = { listaExpandida = !listaExpandida }
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    painter = painterResource(id = R.drawable.foto),
-                    contentDescription = "Sin imagen",
-                    modifier = Modifier
-                        .size(80.dp)
-                        .padding(8.dp)
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Button(
-                    onClick = { /* Insertar imagen */ },
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier.height(40.dp)
-                ) {
-                    Text("Agregar imagen", fontSize = 12.sp)
+            OutlinedTextField(
+                value = listaSeleccionada?.nombre ?: "",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Lista") },
+                trailingIcon = {
+                    Icon(Icons.Filled.ArrowDropDown, contentDescription = "Expandir")
+                },
+                modifier = Modifier.menuAnchor().fillMaxWidth()
+            )
+            ExposedDropdownMenu(
+                expanded = listaExpandida,
+                onDismissRequest = { listaExpandida = false }
+            ) {
+                listas.forEach { lista ->
+                    DropdownMenuItem(
+                        text = { Text(lista.nombre) },
+                        onClick = {
+                            listaSeleccionada = lista
+                            listaExpandida = false
+                        }
+                    )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text("Detalle", color = Color.Gray, fontSize = 14.sp)
-
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = nombre,
+            onValueChange = { nombre = it },
             label = { Text("Nombre") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = descripcion,
+            onValueChange = { descripcion = it },
             label = { Text("Descripción") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = codigo,
+            onValueChange = { codigo = it },
             label = { Text("Código") },
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {
-                IconButton(
-                    onClick = { /* Acción del botón */ },
-                    modifier = Modifier
-                        .height(28.dp)
-                        .width(36.dp)
-                        .background(Color.Transparent)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.codigo),
-                        contentDescription = "Escanear código",
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
+            modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = existencias,
+            onValueChange = { existencias = it },
             label = { Text("Existencias") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
         )
     }
 }

@@ -10,22 +10,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
+import com.example.stockeasy.viewmodel.StockEasyViewModel
 
 @Composable
-fun CrearListaScreen() {
-    val fondo = Color(0xFF5E9CA0)       // fondo azul verdoso
-    val botonColor = Color(0xFF6DC2A6)  // botón verde menta
+fun CrearListaScreen(
+    viewModel: StockEasyViewModel,
+    onListaCreada: () -> Unit = {}
+) {
+    val fondo = Color(0xFF5E9CA0)
+    val botonColor = Color(0xFF6DC2A6)
     val campoBlanco = Color.White
 
-    var nombre by remember { mutableStateOf(TextFieldValue("")) }
-    var descripcion by remember { mutableStateOf(TextFieldValue("")) }
-    var lista by remember { mutableStateOf(TextFieldValue("")) }
+    var nombre by remember { mutableStateOf("") }
+    var descripcion by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -62,7 +63,6 @@ fun CrearListaScreen() {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Contenedor para centrar el texto completamente
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -82,9 +82,8 @@ fun CrearListaScreen() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Nombre
-            Text("Nombre", color = Color.White, modifier = Modifier.align(Alignment.Start),
-                fontWeight = FontWeight.Bold)
+            // Campo Nombre
+            Text("Nombre", color = Color.White, modifier = Modifier.align(Alignment.Start), fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedTextField(
                 value = nombre,
@@ -100,9 +99,8 @@ fun CrearListaScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Imagen
-            Text("Imagen", color = Color.White, modifier = Modifier.align(Alignment.Start),
-                fontWeight = FontWeight.Bold)
+            // Imagen simulada
+            Text("Imagen", color = Color.White, modifier = Modifier.align(Alignment.Start), fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             Column(
                 modifier = Modifier
@@ -119,8 +117,7 @@ fun CrearListaScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Descripción
-            Text("Breve descripción", color = Color.White, modifier = Modifier.align(Alignment.Start),
-                fontWeight = FontWeight.Bold)
+            Text("Breve descripción", color = Color.White, modifier = Modifier.align(Alignment.Start), fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(5.dp))
             OutlinedTextField(
                 value = descripcion,
@@ -134,11 +131,17 @@ fun CrearListaScreen() {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
-
+            Spacer(modifier = Modifier.height(24.dp))
 
             Button(
-                onClick = { /* Acción crear lista */ },
+                onClick = {
+                    if (nombre.isNotBlank()) {
+                        viewModel.agregarLista(nombre, descripcion)
+                        onListaCreada()
+                        nombre = ""
+                        descripcion = ""
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = botonColor),
                 shape = RoundedCornerShape(50),
                 modifier = Modifier
@@ -151,8 +154,8 @@ fun CrearListaScreen() {
     }
 }
 
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun PreviewCrearListaScreen() {
     CrearListaScreen()
-}
+}*/

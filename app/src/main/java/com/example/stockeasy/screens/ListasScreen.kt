@@ -1,28 +1,30 @@
 package com.example.stockeasy.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.stockeasy.R
+import androidx.navigation.NavController
+import com.example.stockeasy.viewmodel.StockEasyViewModel
 
 @Composable
-fun ListasScreen() {
+fun ListasScreen(viewModel: StockEasyViewModel, navController: NavController) {
     val verdeOscuro = Color(0xFF2E7D6D)
     val grisClaro = Color(0xFFF5F5F5)
+    val listas = viewModel.listas
+
+    LaunchedEffect(Unit) {
+        viewModel.cargarListas()
+    }
 
     Column(
         modifier = Modifier
@@ -32,60 +34,47 @@ fun ListasScreen() {
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Título y subtítulo centrados
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Listas",
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold,
-                color = verdeOscuro
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Observa tus listas creadas",
-                fontSize = 14.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center
-            )
-        }
+        Text(
+            text = "Listas",
+            fontSize = 26.sp,
+            color = verdeOscuro,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Imagen decorativa (centrada, con márgenes)
-        Image(
-            painter = painterResource(id = R.drawable.listas), // Asegúrate de tener esta imagen en drawable
-            contentDescription = "Imagen decorativa",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-                .padding(horizontal = 8.dp)
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Lista de tarjetas
-        Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            repeat(4) {
+        if (listas.isEmpty()) {
+            Text(
+                text = "No hay listas registradas.",
+                color = Color.Gray,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        } else {
+            listas.forEach { lista ->
                 Card(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 6.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                 ) {
                     ListItem(
-                        headlineContent = { Text("Lista", fontWeight = FontWeight.Bold) },
-                        supportingContent = { Text("Descripción") },
+                        headlineContent = { Text(lista.nombre) },
+                        supportingContent = { Text(lista.descripcion) },
                         leadingContent = {
-                            Icon(
-                                imageVector = Icons.Default.List,
-                                contentDescription = null,
-                                tint = verdeOscuro
-                            )
+                            Icon(Icons.Default.List, contentDescription = null, tint = verdeOscuro)
+                        },
+                        trailingContent = {
+                            Row {
+                                IconButton(onClick = {
+                                    viewModel.eliminarLista(lista)
+                                }) {
+                                    Icon(Icons.Default.Delete, contentDescription = "Eliminar", tint = Color.Red)
+                                }
+                            }
+                        },
+                        modifier = Modifier.clickable {
+                            navController.navigate("nombreLista/${lista.id}")
                         }
                     )
                 }
@@ -94,8 +83,8 @@ fun ListasScreen() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+/*@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ListasScreenPreview() {
         ListasScreen()
-}
+}*/
